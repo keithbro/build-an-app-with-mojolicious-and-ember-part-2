@@ -19,7 +19,37 @@
     </section>
 
     <section class="main-content">
-      <p>This is the second part of a multi-part tutorial which will help you get started developing web applications using <a href="http://mojolicious.org">Mojolicious</a> and <a href="http://emberjs.com">Ember</a>. If you're looking for the <a href="http://keithbro.github.io/build-an-app-with-mojolicious-and-ember-part-1">first part, here it is</a></p>
+      <p>This is the second part of a multi-part tutorial which will help you get started developing web applications using <a href="http://mojolicious.org">Mojolicious</a> and <a href="http://emberjs.com">Ember</a>. In the <a href="http://keithbro.github.io/build-an-app-with-mojolicious-and-ember-part-1">first part</a>, we got everything installed and finished at the point where we had front-end and back-end development servers running.</p>
+
+<h2>
+<a id="our-application" class="anchor" href="#our-application" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Our Application</h2>
+
+<p>The application we will create will be very simple, but will show how everything ties together and will lay the groundwork for building something more complex. On the landing page, the user will see a list of music artists. When the user clicks on each artist, they should see more information about that artist, including their albums. For the first iteration, the application will be read-only, but later on we'll add functionality such that the user can add artists and albums.</p>
+
+<h2>
+<a id="ember-resources" class="anchor" href="#ember-resources" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Ember Resources</h2>
+
+<p>Ember-CLI provides the concept of a "resource" which consists of a model, a route and a template. This gives us everything we need to display a list of artists. We can generate a resource called artists, and that will take us a long way towards our goal.</p>
+
+<pre><code>~/music-app/ember$ ember generate resource artists
+</code></pre>
+
+<p>That generated a lot of files! We even got unit tests for our model and route. Thanks Ember-CLI!</p>
+
+<p>So what does this mean for us? Well, we now have a new endpoint on our front-end - <a href="http://localhost:4200/artists">http://localhost:4200/artists</a>. Unfortunately, there's nothing interesting there yet. We still need to tell Ember what this route should actually do. When the user lands on this page, the front-end should request the list of artists from the back-end. Let's implement that.</p>
+
+<h2>
+<a id="ember-routes" class="anchor" href="#ember-routes" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Ember Routes</h2>
+
+<p>In Ember, routes are responsible for loading data. Open <code>app/routes/artists.js</code> and change it to the following:</p>
+
+<div class="highlight highlight-source-js"><pre><span class="pl-k">import</span> <span class="pl-smi">Ember</span> <span class="pl-k">from</span> <span class="pl-s"><span class="pl-pds">'</span>ember<span class="pl-pds">'</span></span>;
+
+<span class="pl-k">export</span> <span class="pl-v">default</span> <span class="pl-smi">Ember</span>.<span class="pl-smi">Route</span>.<span class="pl-en">extend</span>({
+  <span class="pl-en">model</span>() {
+    <span class="pl-k">return</span> <span class="pl-v">this</span>.<span class="pl-smi">store</span>.<span class="pl-en">findAll</span>(<span class="pl-s"><span class="pl-pds">'</span>artist<span class="pl-pds">'</span></span>);
+  },
+});</pre></div>
 
       <footer class="site-footer">
         <span class="site-footer-owner"><a href="https://github.com/keithbro/build-an-app-with-mojolicious-and-ember-part-2">Building a web application with Mojolicious and Ember - Part Two</a> is maintained by <a href="https://github.com/keithbro">keithbro</a>.</span>
