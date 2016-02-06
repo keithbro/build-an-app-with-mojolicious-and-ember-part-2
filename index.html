@@ -29,7 +29,7 @@
 <h2>
 <a id="ember-resources" class="anchor" href="#ember-resources" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Ember Resources</h2>
 
-<p>Ember-CLI provides the concept of a "resource" which consists of a model, a route and a template. If we generate a resource called artists, it will take us a long way towards our goal of displaying a list of artists to the user. We can also define what attributes artists should have, for example, a name which is a string.</p>
+<p>Ember-CLI provides the concept of a "resource" which consists of a model, a route and a template. If we generate a resource called artists, it will take us a long way towards our goal of displaying a list of artists to the user. We can also define what attributes artists should have, for example, every artist has a name which is a string.</p>
 
 <pre><code>~/music-app/ember$ ember generate resource artists name:string
 version: 1.13.15
@@ -104,9 +104,9 @@ installing route-test
 
 1;</pre></div>
 
-<p>OK, so we've cheated a bit by hard-coding the artist data. We'll return it as JSON when the something hits the /artists endpoint. In a while we'll replace the hard-coded data by a call to the database, but let's just get it working for now.</p>
+<p>OK, so we've cheated a bit by hard-coding the artist data. In a while we'll replace the hard-coded data by a call to the database, but let's just get it working for now. We'll return it as JSON when the something hits the /artists endpoint.</p>
 
-<p>Reload the front-end, and the "Welcome to Ember" should have reappeared. If you look at the console, the error should have disappeared and if you inspect the network traffic, you should see a successful response from the back-end with the artist data. However, we still don't see the artist data on the page. All that remains to do, is to define how the data should appear on the page.</p>
+<p>Reload the front-end, and the "Welcome to Ember" should have reappeared. If you look at the console, the error should have disappeared and if you inspect the network traffic, you should see a successful response from the back-end with the artist data. However, we still don't see the artist data on the page. We still need define how the data should appear on the page.</p>
 
 <h2>
 <a id="ember-templates" class="anchor" href="#ember-templates" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Ember Templates</h2>
