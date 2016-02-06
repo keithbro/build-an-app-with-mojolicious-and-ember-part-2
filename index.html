@@ -19,7 +19,7 @@
     </section>
 
     <section class="main-content">
-      <p>This is the second part of a multi-part tutorial which will help you get started developing web applications using <a href="http://mojolicious.org">Mojolicious</a> and <a href="http://emberjs.com">Ember</a>. In the <a href="http://keithbro.github.io/build-an-app-with-mojolicious-and-ember-part-1">first part</a>, we got everything installed and finished at the point where we had front-end and back-end development servers running.</p>
+      <p>This is the second part of a multi-part tutorial which will help you get started developing web applications using <a href="http://mojolicious.org">Mojolicious</a> and <a href="http://emberjs.com">Ember</a>. In the <a href="http://keithbro.github.io/build-an-app-with-mojolicious-and-ember-part-1">first part</a>, we got everything installed and finished at the point where we had front-end and back-end development servers running. The following instructions assume that both servers are still running.</p>
 
 <h2>
 <a id="our-application" class="anchor" href="#our-application" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Our Application</h2>
@@ -53,7 +53,7 @@ installing route-test
 <h2>
 <a id="ember-routes" class="anchor" href="#ember-routes" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Ember Routes</h2>
 
-<p>In Ember, routes are responsible for loading data. Open <code>app/routes/artists.js</code> and change it to the following:</p>
+<p>In Ember, routes are responsible for loading data. Open <code>ember/app/routes/artists.js</code> and change it to the following:</p>
 
 <div class="highlight highlight-source-js"><pre><span class="pl-k">import</span> <span class="pl-smi">Ember</span> <span class="pl-k">from</span> <span class="pl-s"><span class="pl-pds">'</span>ember<span class="pl-pds">'</span></span>;
 
@@ -70,7 +70,41 @@ installing route-test
 <pre><code>GET http://localhost:4200/artists 404 (Not Found)
 </code></pre>
 
-<p>This is good. It means that Ember is now requesting data from the server, but the server has no knowledge of artists yet.</p>
+<p>This is good. It means that Ember is now requesting data from the server, but the server replied saying that it has no knowledge about artists.</p>
+
+<h2>
+<a id="mojolicious-routes" class="anchor" href="#mojolicious-routes" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Mojolicious Routes</h2>
+
+<p>In Mojolicious, routes are responsible for responding to incoming requests. In our application development, the logical next step is to respond to the Ember application's request for artists. Open <code>mojo/lib/MusicApp.pm</code>, and change it to the following:</p>
+
+<div class="highlight highlight-source-perl"><pre><span class="pl-k">package</span> <span class="pl-en">MusicApp</span>;
+<span class="pl-k">use</span> Mojo::Base <span class="pl-s"><span class="pl-pds">'</span>Mojolicious<span class="pl-pds">'</span></span>;
+
+<span class="pl-k">sub</span> <span class="pl-en">startup</span> {
+    <span class="pl-k">my</span> <span class="pl-smi">$self</span> = <span class="pl-c1">shift</span>;
+
+    <span class="pl-k">my</span> <span class="pl-smi">$artists</span> = [
+        {
+            <span class="pl-c1">id</span> <span class="pl-k">=&gt;</span> 1,
+            <span class="pl-c1">name</span> <span class="pl-k">=&gt;</span> <span class="pl-s"><span class="pl-pds">"</span>Michael Jackson<span class="pl-pds">"</span></span>,
+        },
+        {
+            <span class="pl-c1">id</span> <span class="pl-k">=&gt;</span> 2,
+            <span class="pl-c1">name</span> <span class="pl-k">=&gt;</span> <span class="pl-s"><span class="pl-pds">"</span>Eminem<span class="pl-pds">"</span></span>,
+        },
+    ];
+
+    <span class="pl-k">my</span> <span class="pl-smi">$r</span> = <span class="pl-smi">$self</span><span class="pl-k">-&gt;</span>routes;
+
+    <span class="pl-smi">$r</span><span class="pl-k">-&gt;</span>get(<span class="pl-s"><span class="pl-pds">'</span>/artists<span class="pl-pds">'</span></span>)<span class="pl-k">-&gt;</span>to(<span class="pl-c1">cb</span> <span class="pl-k">=&gt;</span> <span class="pl-k">sub</span> {
+        <span class="pl-k">my</span> <span class="pl-smi">$c</span> = <span class="pl-c1">shift</span>;
+        <span class="pl-smi">$c</span><span class="pl-k">-&gt;</span>render(<span class="pl-c1">json</span> <span class="pl-k">=&gt;</span> { <span class="pl-c1">artists</span> <span class="pl-k">=&gt;</span> <span class="pl-smi">$artists</span> });
+    });
+}
+
+1;</pre></div>
+
+<p>OK, so we've cheated a bit by hard-coding the artist data. We'll return it as JSON when the something hits the /artists endpoint.</p>
 
       <footer class="site-footer">
         <span class="site-footer-owner"><a href="https://github.com/keithbro/build-an-app-with-mojolicious-and-ember-part-2">Building a web application with Mojolicious and Ember - Part Two</a> is maintained by <a href="https://github.com/keithbro">keithbro</a>.</span>
