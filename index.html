@@ -106,10 +106,18 @@ installing route-test
 
 <p>OK, so we've cheated a bit by hard-coding the artist data. We'll return it as JSON when the something hits the /artists endpoint. In a while we'll replace the hard-coded data by a call to the database, but let's just get it working for now.</p>
 
-<p>Reload the front-end, and the "Welcome to Ember" should have reappeared. If you look at the console, the error should have disappeared and if you inspect the network traffic, you should see a successful response from the back-end with the artist data. However, we still don't see the artist data on the page. All that remains to do, is to define how the data should appear on the page. This is the responsibility of templates.</p>
+<p>Reload the front-end, and the "Welcome to Ember" should have reappeared. If you look at the console, the error should have disappeared and if you inspect the network traffic, you should see a successful response from the back-end with the artist data. However, we still don't see the artist data on the page. All that remains to do, is to define how the data should appear on the page.</p>
 
 <h2>
 <a id="ember-templates" class="anchor" href="#ember-templates" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Ember Templates</h2>
+
+<p>In Ember, templates are responsible for what should be displayed. Open <code>ember/app/templates/artists.hbs</code>, and change it to the following:</p>
+
+<div class="highlight highlight-text-html-handlebars"><pre><span class="pl-c1">{{#each</span> <span class="pl-v">model</span> <span class="pl-c1">as</span> |artist|<span class="pl-c1">}}</span>
+  &lt;<span class="pl-ent">div</span> <span class="pl-e"><span class="pl-e">class</span>=</span><span class="pl-s"><span class="pl-pds">"</span>artist<span class="pl-pds">"</span></span>&gt;
+    <span class="pl-c1">{{</span><span class="pl-v">artist.name</span><span class="pl-c1">}}</span>
+  &lt;/<span class="pl-ent">div</span>&gt;
+<span class="pl-c1">{{/each}}</span></pre></div>
 
       <footer class="site-footer">
         <span class="site-footer-owner"><a href="https://github.com/keithbro/build-an-app-with-mojolicious-and-ember-part-2">Building a web application with Mojolicious and Ember - Part Two</a> is maintained by <a href="https://github.com/keithbro">keithbro</a>.</span>
