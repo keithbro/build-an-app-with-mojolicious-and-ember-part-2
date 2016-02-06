@@ -29,14 +29,26 @@
 <h2>
 <a id="ember-resources" class="anchor" href="#ember-resources" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Ember Resources</h2>
 
-<p>Ember-CLI provides the concept of a "resource" which consists of a model, a route and a template. This gives us everything we need to display a list of artists. We can generate a resource called artists, and that will take us a long way towards our goal.</p>
+<p>Ember-CLI provides the concept of a "resource" which consists of a model, a route and a template. If we generate a resource called artists, it will take us a long way towards our goal of displaying a list of artists to the user.</p>
 
 <pre><code>~/music-app/ember$ ember generate resource artists
+version: 1.13.15
+installing model
+  create app/models/artist.js
+installing model-test
+  create tests/unit/models/artist-test.js
+installing route
+  create app/routes/artists.js
+  create app/templates/artists.hbs
+updating router
+  add route artists
+installing route-test
+  create tests/unit/routes/artists-test.js
 </code></pre>
 
-<p>That generated a lot of files! We even got unit tests for our model and route. Thanks Ember-CLI!</p>
+<p>That generated a lot of code! It even set up unit tests for our model and route. Thanks Ember-CLI!</p>
 
-<p>So what does this mean for us? Well, we now have a new endpoint on our front-end - <a href="http://localhost:4200/artists">http://localhost:4200/artists</a>. Unfortunately, there's nothing interesting there yet. We still need to tell Ember what this route should actually do. When the user lands on this page, the front-end should request the list of artists from the back-end. Let's implement that.</p>
+<p>So what does this mean for us? Well, we now have a new endpoint on our front-end - <a href="http://localhost:4200/artists">http://localhost:4200/artists</a>. Unfortunately, there's nothing interesting there yet - just the normal "Welcome to Ember" message. We still need to tell Ember what this route should actually do. When the user lands on this page, the front-end should request the list of artists from the back-end. Let's implement that.</p>
 
 <h2>
 <a id="ember-routes" class="anchor" href="#ember-routes" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Ember Routes</h2>
@@ -50,6 +62,15 @@
     <span class="pl-k">return</span> <span class="pl-v">this</span>.<span class="pl-smi">store</span>.<span class="pl-en">findAll</span>(<span class="pl-s"><span class="pl-pds">'</span>artist<span class="pl-pds">'</span></span>);
   },
 });</pre></div>
+
+<p>Translated to English, we've used the "store", which is part of ember-data, to <a href="http://emberjs.com/api/data/classes/DS.Store.html#method_findAll">"findAll"</a> artists on the back-end server. When the store returns data, the data will be set as the "model" for this route.</p>
+
+<p>Save the file and if you still have /artists open in your browser, you'll notice that it auto-reloaded (thanks again Ember-CLI). However, this time, the "Welcome to Ember" message has disappeared. Look in the console, and you'll see an error has occurred.</p>
+
+<pre><code>GET http://localhost:4200/artists 404 (Not Found)
+</code></pre>
+
+<p>This is good. It means that Ember is now requesting data from the server, but the server has no knowledge of artists yet.</p>
 
       <footer class="site-footer">
         <span class="site-footer-owner"><a href="https://github.com/keithbro/build-an-app-with-mojolicious-and-ember-part-2">Building a web application with Mojolicious and Ember - Part Two</a> is maintained by <a href="https://github.com/keithbro">keithbro</a>.</span>
