@@ -126,6 +126,32 @@ installing route-test
 
 <p>A few steps ago, we hard-coded the artist data, but next we will replace it with a live database connection. <a href="https://metacpan.org/pod/DBIx::Class">DBIx::Class</a> is object-relational mapper (ORM) for Perl, and it is this that we will use to allow Mojolicious to pull data from MySQL.</p>
 
+<p>We're going to write some SQL scripts that will create our database. Let's create a new directory <code>mojo/db</code> and under that, we'll create the following files:</p>
+
+<div class="highlight highlight-source-sql"><pre><span class="pl-c"># mojo/db/01-create-database.sql</span>
+<span class="pl-k">CREATE</span> <span class="pl-k">DATABASE</span> <span class="pl-en">music_app</span>;</pre></div>
+
+<div class="highlight highlight-source-sql"><pre><span class="pl-c"># mojo/db/02-create-artist-table.sql</span>
+USE music_app;
+
+<span class="pl-k">CREATE</span> <span class="pl-k">TABLE</span> <span class="pl-en">artist</span> (
+  id <span class="pl-k">INTEGER</span> AUTO_INCREMENT <span class="pl-k">PRIMARY KEY</span>,
+  name <span class="pl-k">TEXT</span> <span class="pl-k">NOT NULL</span>,
+  created_at <span class="pl-k">TIMESTAMP</span> DEFAULT <span class="pl-c1">CURRENT_TIMESTAMP</span>,
+  updated_at <span class="pl-k">TIMESTAMP</span> DEFAULT <span class="pl-c1">CURRENT_TIMESTAMP</span> <span class="pl-k">ON</span> <span class="pl-k">UPDATE</span> <span class="pl-c1">CURRENT_TIMESTAMP</span>
+);</pre></div>
+
+<div class="highlight highlight-source-sql"><pre><span class="pl-c"># mojo/db/03-create-album-table.sql</span>
+USE music_app;
+
+<span class="pl-k">CREATE</span> <span class="pl-k">TABLE</span> <span class="pl-en">album</span> (
+  id <span class="pl-k">INTEGER</span> AUTO_INCREMENT <span class="pl-k">PRIMARY KEY</span>,
+  artist_id <span class="pl-k">INTEGER</span> <span class="pl-k">NOT NULL</span> <span class="pl-k">REFERENCES</span> artist(id),
+  title <span class="pl-k">TEXT</span> <span class="pl-k">NOT NULL</span>,
+  created_at <span class="pl-k">TIMESTAMP</span> DEFAULT <span class="pl-c1">CURRENT_TIMESTAMP</span>,
+  updated_at <span class="pl-k">TIMESTAMP</span> DEFAULT <span class="pl-c1">CURRENT_TIMESTAMP</span> <span class="pl-k">ON</span> <span class="pl-k">UPDATE</span> <span class="pl-c1">CURRENT_TIMESTAMP</span>
+);</pre></div>
+
       <footer class="site-footer">
         <span class="site-footer-owner"><a href="https://github.com/keithbro/build-an-app-with-mojolicious-and-ember-part-2">Building a web application with Mojolicious and Ember - Part Two</a> is maintained by <a href="https://github.com/keithbro">keithbro</a>.</span>
 
