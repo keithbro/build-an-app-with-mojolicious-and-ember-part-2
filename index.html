@@ -179,7 +179,7 @@ USE music_app;
 <pre><code>~/music_app$ mysql -u root &lt; mojo/db/*.sql
 </code></pre>
 
-<p>In order for the application to be able to communicate with the database, the application will need to understand its structure. Luckily there is a tool on the CPAN which can generate the required code. Open up mojo/cpanfile and add three new modules:</p>
+<p>In order for the application to be able to communicate with the database, the application will need to understand its structure. Luckily there is a tool on the CPAN which can generate the required code. Open up <code>mojo/cpanfile</code> and add three new modules:</p>
 
 <div class="highlight highlight-source-perl"><pre>requires <span class="pl-s"><span class="pl-pds">"</span>DBD::mysql<span class="pl-pds">"</span></span>; <span class="pl-c"># allows communication with a MySQL server</span>
 requires <span class="pl-s"><span class="pl-pds">"</span>DBIx::Class<span class="pl-pds">"</span></span>; <span class="pl-c"># object-relational mapper</span>
@@ -203,7 +203,7 @@ mojo/lib/MusicApp/Schema/Result/Artist.pm # module representing a single artist
 mojo/lib/MusicApp/Schema/Result/Album.pm # module representing a single album
 </code></pre>
 
-<p>We should now be able to replace the hard-coded artist data with calls to the database. First, we will add an attribute to our application to hold the database connection. Open mojo/lib/MusicApp.pm, add the following just above the <code>startup</code> subroutine.</p>
+<p>We should now be able to replace the hard-coded artist data with calls to the database. First, we will add an attribute to our application to hold the database connection. Open <code>mojo/lib/MusicApp.pm</code>, add the following just above the <code>startup</code> subroutine.</p>
 
 <div class="highlight highlight-source-perl"><pre>has <span class="pl-c1">schema</span> <span class="pl-k">=&gt;</span> <span class="pl-k">sub</span> {
     MusicApp::Schema<span class="pl-k">-&gt;</span><span class="pl-c1">connect</span>(<span class="pl-s"><span class="pl-pds">'</span>dbi:mysql:database=music_app<span class="pl-pds">'</span></span>, <span class="pl-s"><span class="pl-pds">'</span>root<span class="pl-pds">'</span></span>);
@@ -211,7 +211,7 @@ mojo/lib/MusicApp/Schema/Result/Album.pm # module representing a single album
 
 <p>Ideally we should not hard code the connection details here. Instead they should be read from a configuration file or from the environment. We will address this later.</p>
 
-<p>Also, note that this is a lazily-initialised attributed, meaning the code will only run just before it is needed.</p>
+<p>Also, note that this is a lazily-initialised attribute, meaning the code will only run just before it is needed.</p>
 
 <p>Next, we will use the schema attribute to fetch the artist data. Replace the hard-coded <code>$artists</code> with:</p>
 
@@ -226,12 +226,12 @@ mojo/lib/MusicApp/Schema/Result/Album.pm # module representing a single album
     <span class="pl-smi">$self</span><span class="pl-k">-&gt;</span>schema<span class="pl-k">-&gt;</span>resultset(<span class="pl-s"><span class="pl-pds">"</span>Artist<span class="pl-pds">"</span></span>)<span class="pl-k">-&gt;</span>all
 ];</pre></div>
 
-<p>If you reload the front-end now, you should see the same output, but it will be reading the data from the database!</p>
+<p>We are asking for <code>all</code> the results of type <code>Artist</code> and then we pull out the specific data that we wish to serve in the JSON payload. If you reload the front-end now, you should see the same output, but it will be reading the data from the database!</p>
 
 <h2>
 <a id="summary" class="anchor" href="#summary" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Summary</h2>
 
-<p>The data is now flowing from the MySQL database to the back-end Mojolicious server to the front-end Ember application. There are a few more things we can do to improve the application, and we'll do that in the next part of the tutorial.</p>
+<p>The data is now flowing from the MySQL database to the back-end Mojolicious server to the front-end Ember application. In the next part of the tutorial, we will refactor some of the existing code, and expose the related albums to the front-end.</p>
 
 <hr>
 
