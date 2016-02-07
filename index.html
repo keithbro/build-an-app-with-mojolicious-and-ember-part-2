@@ -169,6 +169,23 @@ requires <span class="pl-s"><span class="pl-pds">"</span>DBIx::Class<span class=
 requires <span class="pl-s"><span class="pl-pds">"</span>DBIx::Class::Schema::Loader<span class="pl-pds">"</span></span>; <span class="pl-c"># code generator</span>
 requires <span class="pl-s"><span class="pl-pds">"</span>Mojolicious<span class="pl-pds">"</span></span>;</pre></div>
 
+<p>And install them (it will take a few minutes):</p>
+
+<pre><code>~/music_app/mojo$ cpanm --installdeps .
+</code></pre>
+
+<p>DBIx::Class::Schema::Loader ships with a command line tool <code>dbicdump</code>. To generate the code, run the following:</p>
+
+<pre><code>~/music_app/mojo$ dbicdump -o dump_directory=./lib MusicApp::Schema dbi:mysql:database=music_app root
+</code></pre>
+
+<p>This will create three new files:</p>
+
+<pre><code>mojo/lib/MusicApp/Schema.pm # main module representing the database, allows connections to be made
+mojo/lib/MusicApp/Schema/Result/Artist.pm # module representing a single artist
+mojo/lib/MusicApp/Schema/Result/Album.pm # module representing a single album
+</code></pre>
+
       <footer class="site-footer">
         <span class="site-footer-owner"><a href="https://github.com/keithbro/build-an-app-with-mojolicious-and-ember-part-2">Building a web application with Mojolicious and Ember - Part Two</a> is maintained by <a href="https://github.com/keithbro">keithbro</a>.</span>
 
