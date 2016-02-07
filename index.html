@@ -124,7 +124,7 @@ installing route-test
 <h2>
 <a id="dbixclass" class="anchor" href="#dbixclass" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>DBIx::Class</h2>
 
-<p>A few steps ago, we hard-coded the artist data, but next we will replace it with a live database connection. <a href="https://metacpan.org/pod/DBIx::Class">DBIx::Class</a> is object-relational mapper (ORM) for Perl, and it is this that we will use to allow Mojolicious to pull data from MySQL.</p>
+<p>A few steps ago, we hard-coded the artist data, but next we will replace it with a live database connection. <a href="https://metacpan.org/pod/DBIx::Class">DBIx::Class</a> is object-relational mapper (ORM) for Perl, and it is this that we will use to allow our application to communicate with a database.</p>
 
 <p>We're going to write some SQL scripts that will create our database. Let's create a new directory <code>mojo/db</code> and under that, we'll create the following files:</p>
 
@@ -152,10 +152,22 @@ USE music_app;
   updated_at <span class="pl-k">TIMESTAMP</span> DEFAULT <span class="pl-c1">CURRENT_TIMESTAMP</span> <span class="pl-k">ON</span> <span class="pl-k">UPDATE</span> <span class="pl-c1">CURRENT_TIMESTAMP</span>
 );</pre></div>
 
-<p>And now, with your MySQL server running, populate the database:</p>
+<p>Make sure your MySQL server is running:</p>
+
+<pre><code>$ mysql.server start
+</code></pre>
+
+<p>And then populate the database:</p>
 
 <pre><code>~/music_app$ mysql -u root &lt; mojo/db/*.sql
 </code></pre>
+
+<p>In order for the application to be able to communicate with the database, the application will need to understand its structure. Luckily there is a tool on the CPAN which can generate the required code. Open up mojo/cpanfile and add three new modules:</p>
+
+<div class="highlight highlight-source-perl"><pre>requires <span class="pl-s"><span class="pl-pds">"</span>DBD::mysql<span class="pl-pds">"</span></span>; <span class="pl-c"># allows communication with a MySQL server</span>
+requires <span class="pl-s"><span class="pl-pds">"</span>DBIx::Class<span class="pl-pds">"</span></span>; <span class="pl-c"># object-relational mapper</span>
+requires <span class="pl-s"><span class="pl-pds">"</span>DBIx::Class::Schema::Loader<span class="pl-pds">"</span></span>; <span class="pl-c"># code generator</span>
+requires <span class="pl-s"><span class="pl-pds">"</span>Mojolicious<span class="pl-pds">"</span></span>;</pre></div>
 
       <footer class="site-footer">
         <span class="site-footer-owner"><a href="https://github.com/keithbro/build-an-app-with-mojolicious-and-ember-part-2">Building a web application with Mojolicious and Ember - Part Two</a> is maintained by <a href="https://github.com/keithbro">keithbro</a>.</span>
