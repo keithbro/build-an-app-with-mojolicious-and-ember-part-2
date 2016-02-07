@@ -152,6 +152,11 @@ USE music_app;
   updated_at <span class="pl-k">TIMESTAMP</span> DEFAULT <span class="pl-c1">CURRENT_TIMESTAMP</span> <span class="pl-k">ON</span> <span class="pl-k">UPDATE</span> <span class="pl-c1">CURRENT_TIMESTAMP</span>
 );</pre></div>
 
+<p>And now, with your MySQL server running, populate the database:</p>
+
+<pre><code>~/music_app$ mysql -u root &lt; mojo/db/*.sql
+</code></pre>
+
       <footer class="site-footer">
         <span class="site-footer-owner"><a href="https://github.com/keithbro/build-an-app-with-mojolicious-and-ember-part-2">Building a web application with Mojolicious and Ember - Part Two</a> is maintained by <a href="https://github.com/keithbro">keithbro</a>.</span>
 
